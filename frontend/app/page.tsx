@@ -13,7 +13,7 @@ export default function Home() {
 
   useEffect(() => {
     axios
-      .get<Product[]>("http://127.0.0.1:8000/api/products/")
+      .get<Product[]>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products/`)
       .then((res) => setProducts(res.data))
       .catch((err) => console.error("Error fetching products:", err));
   }, []);
