@@ -4,7 +4,6 @@ from .models import Product
 
 class ProductSerializer(serializers.ModelSerializer):
     vendor = serializers.StringRelatedField()
-    image = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
