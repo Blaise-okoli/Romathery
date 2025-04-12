@@ -1,4 +1,5 @@
 import os
+import uuid
 from supabase import create_client
 
 supabase_url = os.environ.get("SUPABASE_URL")
@@ -10,7 +11,10 @@ supabase = create_client(supabase_url, supabase_key)
 
 
 def upload_image_to_supabase(file_obj, filename):
-    path = f"{filename}"
+    # Generate a unique filename using UUID and original extension
+    ext = filename.split('.')[-1]
+    unique_filename = f"{uuid.uuid4()}.{ext}"
+    path = unique_filename
 
     # Read file contents as bytes
     file_obj.seek(0)  # ensure we read from the beginning
