@@ -21,7 +21,9 @@ def upload_image_to_supabase(file_obj, filename):
         file_bytes, 
         {"content-type": "image/jpeg"}
     )
-    if result.get('error'):
-        print("Upload error:", result['error'])
+
+    if result.error:
+        print("Upload error:", result.error)
         return None
+    
     return f"{supabase_url}/storage/v1/object/public/{bucket}/{path}"
