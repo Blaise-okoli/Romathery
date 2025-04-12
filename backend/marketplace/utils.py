@@ -11,23 +11,28 @@ supabase = create_client(supabase_url, supabase_key)
 
 
 def upload_image_to_supabase(file_obj, filename):
-    # Generate a unique filename using UUID and original extension
-    ext = filename.split('.')[-1]
-    unique_filename = f"{uuid.uuid4()}.{ext}"
-    path = unique_filename
+    try:
+        # Generate a unique filename using UUID and original extension
+        ext = filename.split('.')[-1]
+        unique_filename = f"{uuid.uuid4()}.{ext}"
+        path = unique_filename
 
-    # Read file contents as bytes
-    file_obj.seek(0)  # ensure we read from the beginning
-    file_bytes = file_obj.read()
+        # Read file contents as bytes
+        file_obj.seek(0)  # ensure we read from the beginning
+        file_bytes = file_obj.read()
 
-    result = supabase.storage.from_(bucket).upload(
-        path, 
-        file_bytes, 
-        {"content-type": "image/jpeg"}
-    )
+        result = supabase.storage.from_(bucket).upload(
+            path, 
+            file_bytes, 
+            {"content-type": "image/jpeg"}
+        )
 
-    if result["error"]:
-        print("Upload error:", result["error"])
-        return None
+        # if result["error"]:
+        #     print("Upload error:", result["error"])
+        #     return None
+        
+        return f"{supabase_url}/storage/v1/object/public/{bucket}/{path}"
     
-    return f"{supabase_url}/storage/v1/object/public/{bucket}/{path}"
+    except Exception as e:
+        print("Upload failed:", str(e))
+        return None
