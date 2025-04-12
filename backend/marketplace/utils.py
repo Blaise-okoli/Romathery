@@ -19,8 +19,7 @@ def upload_image_to_supabase(file_obj, filename):
     result = supabase.storage.from_(bucket).upload(
         path, 
         file_bytes, 
-        {"content-type": "image/jpeg"}, 
-        upsert=True # allow overwrite if same file exists
+        {"content-type": "image/jpeg"}
     )
     if result.get('error'):
         print("Upload error:", result['error'])
