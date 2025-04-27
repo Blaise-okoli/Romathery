@@ -1,14 +1,18 @@
 from django.contrib import admin
-from .models import Vendor, Product
+from .models import Vendor, Product, Warehouse
 from .utils import upload_image_to_supabase
 
 
-class VendorAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+class WarehouseAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "location")
 
+class VendorAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', "warehouse")
+    list_filter = ("warehouse",) # This adds the warehouse filter
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'vendor')
+    list_filter = ("vendor",)
     readonly_fields = ("image_url",)
 
     def save_model(self, request, obj, form, change):
@@ -24,3 +28,4 @@ class ProductAdmin(admin.ModelAdmin):
 
 admin.site.register(Vendor, VendorAdmin)
 admin.site.register(Product, ProductAdmin)
+admin.site.register(Warehouse, WarehouseAdmin)

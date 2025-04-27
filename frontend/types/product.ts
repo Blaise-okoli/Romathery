@@ -4,5 +4,6 @@ export type Product = {
     description: string
     image_url: string
     vendor: string
+    warehouse: string | null
   }
   
